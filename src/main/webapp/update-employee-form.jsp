@@ -35,7 +35,7 @@
         pstmt.executeUpdate();
 
         // Quay lại trang danh sách nhân viên
-        response.sendRedirect("listEmployees.jsp");
+        response.sendRedirect("list-employees.jsp");
     } catch (Exception e) {
         responseWriter.println(e.getMessage());
     } finally {
