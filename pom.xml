@@ -24,11 +24,6 @@
             <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.30</version> <!-- Chọn phiên bản mới nhất -->
-        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
