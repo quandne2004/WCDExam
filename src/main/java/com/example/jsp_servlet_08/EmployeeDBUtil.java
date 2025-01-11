@@ -242,4 +242,51 @@ public class EmployeeDBUtil {
             exc.printStackTrace();
         }
     }
+
+    // Tìm kiếm nhân viên theo tên hoặc email
+    public List<Employee> searchEmployee(String keyword) throws Exception {
+
+        List<Employee> employees = new ArrayList<>();
+        Connection myConn = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+
+        try {
+            // Kết nối với cơ sở dữ liệu
+            String url = "jdbc:mysql://localhost:3306/hr_manage";
+            String username = "root";
+            String password = "123456789";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            myConn = DriverManager.getConnection(url, username, password);
+
+            // Tạo câu lệnh SQL tìm kiếm
+            String sql = "SELECT * FROM employee WHERE employee_name LIKE ? OR email LIKE ?";
+            myStmt = myConn.prepareStatement(sql);
+
+            // Thiết lập giá trị cho tham số tìm kiếm
+            String searchKeyword = "%" + keyword + "%";
+            myStmt.setString(1, searchKeyword);
+            myStmt.setString(2, searchKeyword);
+
+            // Thực thi câu lệnh và xử lý kết quả
+            myRs = myStmt.executeQuery();
+            while (myRs.next()) {
+                int id = myRs.getInt("employee_id");
+                String name = myRs.getString("employee_name");
+                String email = myRs.getString("email");
+                String phone = myRs.getString("phone_number");
+                String birthday = myRs.getString("birthday");
+
+                // Tạo đối tượng Employee và thêm vào danh sách
+                Employee tempEmployee = new Employee(id, name, email, phone, birthday);
+                employees.add(tempEmployee);
+            }
+            return employees;
+        } finally {
+            // Đóng các tài nguyên JDBC
+            close(myConn, myStmt, myRs);
+        }
+    }
+
 }
